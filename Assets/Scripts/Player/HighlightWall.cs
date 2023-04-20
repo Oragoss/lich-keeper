@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Manager;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,35 +11,39 @@ namespace Assets.Scripts.Player
     public class HighlightWall : MonoBehaviour
     {
         [SerializeField] Tilemap groundLayer;
+        [SerializeField] Tilemap wallLayer;
         [SerializeField] Tilemap highlightLayer;
 
-        [SerializeField] Sprite testSprite;
+        [SerializeField] Sprite highlightSprite;
 
         Vector2 worldPoint;
-        RaycastHit2D hit;
-
-        private void Start()
-        {
-
-        }
 
         private void Update()
         {
             if (Input.GetMouseButton(0))
             {
                 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //TODO: Implement this
+                //WallManager.wm.AddNewHighlightedWalPosition(worldPoint);
 
-                var tpos = groundLayer.WorldToCell(worldPoint);
+                Vector3Int tpos = wallLayer.WorldToCell(worldPoint);
                 
                 // Try to get a tile from cell position
-                var tile = highlightLayer.GetTile(tpos);
-                Tile newTile = ScriptableObject.CreateInstance<Tile>();
-                newTile.sprite = testSprite;
+                //var highlightLayerTile = highlightLayer.GetTile(tpos);
+                Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
+                newHighlightLayerTile.sprite = highlightSprite;
 
-                if (tile)
+                var wallLayerTile = wallLayer.GetTile(tpos);
+                
+                GameObject go = wallLayer.GetComponent<Tilemap>().GetInstantiatedObject(tpos);
+
+                Tile newWallLayerTile = ScriptableObject.CreateInstance<Tile>();
+                //newWallLayerTile.gameObject.tag = "HighlightedTile";
+
+                if (wallLayerTile)
                 {
-                    print(tile.name);
-                    highlightLayer.SetTile(tpos, newTile);
+                    highlightLayer.SetTile(tpos, newHighlightLayerTile);
+                    //wallLayer.SetTile(tpos, newWallLayerTile);
                 }
             }
         }
