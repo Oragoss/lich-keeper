@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Manager;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -16,36 +17,54 @@ namespace Assets.Scripts.Player
 
         [SerializeField] Sprite highlightSprite;
 
-        Vector2 worldPoint;
-
         private void Update()
+        {
+            Highlight();
+            Dehighlight();
+        }
+
+        private void Highlight()
         {
             if (Input.GetMouseButton(0))
             {
-                worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                //TODO: Implement this
-                //WallManager.wm.AddNewHighlightedWalPosition(worldPoint);
+                Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 Vector3Int tpos = wallLayer.WorldToCell(worldPoint);
+                bool alreadyHighlighted = AddWallPosition(tpos);
                 
+                if(!alreadyHighlighted)
+                {
+                    //TODO: Move everything in here
+                }
+                //var roundedPoint = WallManager.wm.RoundUpWorldPoints(tpos);
+
                 // Try to get a tile from cell position
                 //var highlightLayerTile = highlightLayer.GetTile(tpos);
                 Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
                 newHighlightLayerTile.sprite = highlightSprite;
 
                 var wallLayerTile = wallLayer.GetTile(tpos);
-                
-                GameObject go = wallLayer.GetComponent<Tilemap>().GetInstantiatedObject(tpos);
-
-                Tile newWallLayerTile = ScriptableObject.CreateInstance<Tile>();
-                //newWallLayerTile.gameObject.tag = "HighlightedTile";
 
                 if (wallLayerTile)
                 {
                     highlightLayer.SetTile(tpos, newHighlightLayerTile);
-                    //wallLayer.SetTile(tpos, newWallLayerTile);
                 }
             }
+        }
+
+        private void Dehighlight()
+        {
+            //TODO: Check to see if a Vector 2 has already been stored.
+        }
+
+        private bool AddWallPosition(Vector3Int point)
+        {
+            return WallManager.wm.AddOrRemoveNewHighlightedWalPosition(point);
+        }
+
+        private void RemoveWallPosition(Vector2 point)
+        {
+            //TODO: Going to need to clean up how the vectors are stored so I can remove the correct ones.
         }
     }
 }

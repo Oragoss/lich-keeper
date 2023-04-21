@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallLayer: {fileID: 200898241}
-  floorSprite: {fileID: -1621957764, guid: b1dcdc775693c4c4588589e8f426d566, type: 3}
-  wallSprites: []
+  highlightLayer: {fileID: 1400989988}
+  emptySquare: {fileID: 21300000, guid: 9db694f5f1e0e2743a58a6e1adbb3f5e, type: 3}
   worldPoints: []
 --- !u!1 &69111346
 GameObject:
@@ -4071,7 +4071,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e7676d263faca45a132ea7e5a90181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedWallPositions: []
+  highlightedWallPositions:
+  - {x: 0.27, y: 2.52}
+  - {x: -0.04, y: 2.47}
+  - {x: -0.52, y: 3.34}
+  - {x: -0.37, y: 4.39}
+  - {x: -0.45, y: 5.46}
+  - {x: -0.47, y: 6.25}
+  - {x: 0.55, y: 3.6}
+  - {x: 0.58, y: 4.57}
+  - {x: 0.58, y: 5.36}
+  - {x: -0.52, y: 3.34}
+  - {x: 0.42, y: 6.43}
 --- !u!4 &1266442050
 Transform:
   m_ObjectHideFlags: 0
@@ -12177,6 +12188,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 32357672, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
+      propertyPath: m_Size.x
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 32357673, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_Constraints
       value: 4
@@ -12187,11 +12202,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401924, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.61
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401924, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.44
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401924, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12231,7 +12246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401927, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
