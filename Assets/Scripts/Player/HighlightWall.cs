@@ -16,11 +16,28 @@ namespace Assets.Scripts.Player
         [SerializeField] Tilemap highlightLayer;
 
         [SerializeField] Sprite highlightSprite;
+        [SerializeField] Sprite deHighlightSprite;
 
+        private bool alreadyHighlighted = true;
         private void Update()
         {
-            Highlight();
-            Dehighlight();
+            ToHighlightOrNotToHighlight();
+
+            if (!alreadyHighlighted)
+                Highlight();
+            else
+                Dehighlight();
+        }
+
+        private void ToHighlightOrNotToHighlight()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                Vector3Int tpos = wallLayer.WorldToCell(worldPoint);
+                alreadyHighlighted = WallManager.wm.CheckIfWallIsAlreadyHighlighted(tpos);
+            }
         }
 
         private void Highlight()
@@ -30,41 +47,45 @@ namespace Assets.Scripts.Player
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 Vector3Int tpos = wallLayer.WorldToCell(worldPoint);
-                bool alreadyHighlighted = AddWallPosition(tpos);
-                
-                if(!alreadyHighlighted)
+                var isHighlighted = WallManager.wm.CheckIfWallIsAlreadyHighlighted(tpos);
+
+                if(!isHighlighted)
                 {
-                    //TODO: Move everything in here
-                }
-                //var roundedPoint = WallManager.wm.RoundUpWorldPoints(tpos);
+                    Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
+                    newHighlightLayerTile.sprite = highlightSprite;
 
-                // Try to get a tile from cell position
-                //var highlightLayerTile = highlightLayer.GetTile(tpos);
-                Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
-                newHighlightLayerTile.sprite = highlightSprite;
+                    var wallLayerTile = wallLayer.GetTile(tpos);
 
-                var wallLayerTile = wallLayer.GetTile(tpos);
-
-                if (wallLayerTile)
-                {
-                    highlightLayer.SetTile(tpos, newHighlightLayerTile);
+                    if (wallLayerTile)
+                    {
+                        highlightLayer.SetTile(tpos, newHighlightLayerTile);
+                    }
                 }
             }
         }
 
         private void Dehighlight()
         {
-            //TODO: Check to see if a Vector 2 has already been stored.
-        }
+            if (Input.GetMouseButton(0))
+            {
+                Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        private bool AddWallPosition(Vector3Int point)
-        {
-            return WallManager.wm.AddOrRemoveNewHighlightedWalPosition(point);
-        }
+                Vector3Int tpos = wallLayer.WorldToCell(worldPoint);
+                var isHighlighted = WallManager.wm.CheckIfWallIsAlreadyHighlighted(tpos);
 
-        private void RemoveWallPosition(Vector2 point)
-        {
-            //TODO: Going to need to clean up how the vectors are stored so I can remove the correct ones.
+                if (isHighlighted)
+                {
+                    Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
+                    newHighlightLayerTile.sprite = deHighlightSprite;
+
+                    var wallLayerTile = wallLayer.GetTile(tpos);
+
+                    if (wallLayerTile)
+                    {
+                        highlightLayer.SetTile(tpos, newHighlightLayerTile);
+                    }
+                }
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            var velocity = new Vector2(0f, 1.1f);
+            var velocity = new Vector2(-1.7f, 0f);
             rb2d.MovePosition(rb2d.position + velocity * Time.fixedDeltaTime);
         }
     }

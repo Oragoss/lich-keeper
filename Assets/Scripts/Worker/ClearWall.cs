@@ -13,6 +13,7 @@ namespace Assets.Scripts.Worker
         [SerializeField] Tilemap highlightLayer;
 
         [SerializeField] Sprite emptySquare;    //This replaces the highlight sprite so the player can see again
+        [SerializeField] Sprite upperWall;
 
         [HideInInspector]
         public List<Vector3Int> worldPoints;
@@ -23,9 +24,8 @@ namespace Assets.Scripts.Worker
             worldPoints = WallManager.wm.GetHighlightedWalls();
         }
 
-        private void OnMouseUp()
+        private void FixedUpdate()
         {
-            //TODO: Probably update the worldpoints here.
             worldPoints = WallManager.wm.GetHighlightedWalls();
         }
 
@@ -41,23 +41,38 @@ namespace Assets.Scripts.Worker
             Vector3 hitPosition = Vector3.zero;
             foreach (ContactPoint2D hit in collision.contacts)
             {
-                foreach (var worldPoint in worldPoints)
-                {
-                    //TODO: Just get the stored Vector3Int after changing the stored positions to be the tile's positions instead of where the mouse is clicking!!
-                    Vector3Int tpos = wallLayer.WorldToCell(worldPoint);
-                    var wallLayerTile = wallLayer.GetTile(tpos);
-                    if (wallLayerTile)
-                    {
-                        hitPosition.x = hit.point.x - 0.01f * hit.normal.x;
-                        hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
-                        wallLayer.SetTile(wallLayer.WorldToCell(hitPosition), null);
+                hitPosition.x = hit.point.x - 0.01f * hit.normal.x; //Doing this is absolutely necessary
+                hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
 
-                        Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
-                        newHighlightLayerTile.sprite = emptySquare;
-                        highlightLayer.SetTile(highlightLayer.WorldToCell(hitPosition), newHighlightLayerTile);
-                    }
+                Vector3Int tpos = wallLayer.WorldToCell(hitPosition);
+                Vector3Int highlightedPoint = worldPoints.Find(x => x == tpos);
+                var wallLayerTile = wallLayer.GetTile(highlightedPoint);
+
+                if (wallLayerTile)
+                {
+                    //Adjacent Walls
+                    DetermineSurroundingWallSprites(highlightedPoint);
+
+                    //Direct Wall
+                    wallLayer.SetTile(wallLayer.WorldToCell(highlightedPoint), null);
+                                        
+                    //Highlight layer
+                    Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
+                    newHighlightLayerTile.sprite = emptySquare;
+                    highlightLayer.SetTile(highlightLayer.WorldToCell(hitPosition), newHighlightLayerTile);
                 }
             }
+        }
+    
+        private void DetermineSurroundingWallSprites(Vector3Int tpos)
+        {
+            //TODO: Gather information about the 8 surrounding tiles to determine which sprite should be used.
+            Vector3Int upperTpos = new Vector3Int(tpos.x, tpos.y + 1, tpos.z);
+            Tile newTile = ScriptableObject.CreateInstance<Tile>();
+            newTile.sprite = upperWall;
+            var otherTile = wallLayer.GetTile(new Vector3Int(tpos.x, tpos.y + 1, tpos.z));
+            if(otherTile)
+                wallLayer.SetTile(upperTpos, newTile);
         }
     }
 }

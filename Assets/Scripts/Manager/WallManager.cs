@@ -13,19 +13,6 @@ namespace Assets.Scripts.Manager
 
         private void Reset()
         {
-            //highlightedWallPositions = new List<Vector2> {
-            //    new Vector2(0.27f, 2.52f),
-            //    new Vector2(-0.04f, 2.47f),
-            //    new Vector2(-0.52f, 3.34f),
-            //    new Vector2(-0.37f, 4.39f),
-            //    new Vector2(-0.45f, 5.46f),
-            //    new Vector2(-0.47f, 6.25f),
-            //    new Vector2(0.55f, 3.60f),
-            //    new Vector2(0.58f, 4.57f),
-            //    new Vector2(0.58f, 5.36f),
-            //    new Vector2(-0.52f, 3.34f),
-            //    new Vector2(0.42f, 6.43f),
-            //};
         }
 
         private void Awake()
@@ -46,12 +33,28 @@ namespace Assets.Scripts.Manager
             return highlightedWallPositions;
         }
 
-        internal bool AddOrRemoveNewHighlightedWalPosition(Vector3Int newPoint)
+        internal bool CheckIfWallIsAlreadyHighlighted(Vector3Int point)
         {
-            //TODO: check to see if a point has already been added and remove it
-            highlightedWallPositions.Add(newPoint);
-            print(highlightedWallPositions);
-            return false;
+            Vector3Int newPoint = highlightedWallPositions.Find(x => x == point);
+            
+            if(newPoint == Vector3Int.zero)
+            {
+                AddWallToHighlightedWalls(point);
+                return false;
+            }
+
+            RemoveHighlightedWallPosition(point);
+            return true;
+        }
+
+        internal void RemoveHighlightedWallPosition(Vector3Int point)
+        {
+            highlightedWallPositions.Remove(point);
+        }
+
+        private void AddWallToHighlightedWalls(Vector3Int point)
+        {
+            highlightedWallPositions.Add(point);
         }
     }
 }
