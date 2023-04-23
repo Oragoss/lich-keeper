@@ -13,7 +13,7 @@ namespace Assets.Scripts.Manager
         [SerializeField] List<Vector3Int> highlightedWallPositions;
         public WallTypes[] wallSprites;
 
-        [HideInInspector] public enum WallSprites { Upper, UpperLeft, UpperRight, Left, Right, Lower, LowerLeft, LowerRight };
+        [HideInInspector] public enum WallSprites { Upper, UpperLeft, UpperRight, Left, Right, Lower, LowerLeft, LowerRight, LeftUpperLeft, LeftLowerRight, RightUpperRight, RightLowerRight };
 
         private void Awake()
         {

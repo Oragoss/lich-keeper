@@ -83,10 +83,9 @@ namespace Assets.Scripts.Worker
             var lowerLeftTile = wallLayer.GetTile(lowerLeftTpos);
             var lowerRightTile = wallLayer.GetTile(lowerRightTpos);
 
-            //TODO: Move the sprites to a scriptable asset so they are fixed in a reliable position
             if (upperTile)
             {
-                if (!upperRightTile && !rightTile)
+                if (!upperRightTile && !rightTile && leftTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.UpperRight].Sprite;
@@ -98,14 +97,38 @@ namespace Assets.Scripts.Worker
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
                     wallLayer.SetTile(upperTpos, newTile);
                 }
+                if (upperRightTile && rightTile && !leftTile) {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
+                    wallLayer.SetTile(upperTpos, newTile);
+
+                    Tile newUpperRIghtTile = ScriptableObject.CreateInstance<Tile>();
+                    newUpperRIghtTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.RightUpperRight].Sprite;
+                    wallLayer.SetTile(upperRightTpos, newUpperRIghtTile);
+                }
                 if (upperLeftTile && !rightTile && leftTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.UpperLeft].Sprite;
                     wallLayer.SetTile(upperLeftTpos, newTile);
                 }
+                if (!upperLeftTile && !leftTile && rightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftUpperLeft].Sprite;
+                    wallLayer.SetTile(upperTpos, newTile);
+                }
+                
             }
-            if (rightTile) { }
+            if (rightTile)
+            {
+                if (!leftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
+                    wallLayer.SetTile(rightTpos, newTile);
+                }
+            }
             if (leftTile)
             {
                 if (!rightTile)
@@ -117,7 +140,7 @@ namespace Assets.Scripts.Worker
             }
             if (lowerTile)
             {
-                if (!lowerRightTile && !rightTile)
+                if (!lowerRightTile && !rightTile && leftTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LowerRight].Sprite;
@@ -129,11 +152,27 @@ namespace Assets.Scripts.Worker
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Lower].Sprite;
                     wallLayer.SetTile(lowerTpos, newTile);
                 }
+                if (lowerRightTile && !leftTile && rightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Lower].Sprite;
+                    wallLayer.SetTile(lowerTpos, newTile);
+
+                    Tile newRightLowerRight = ScriptableObject.CreateInstance<Tile>();
+                    newRightLowerRight.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.RightLowerRight].Sprite;
+                    wallLayer.SetTile(lowerRightTpos, newRightLowerRight);
+                }
                 if (lowerLeftTile && !rightTile && leftTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LowerLeft].Sprite;
                     wallLayer.SetTile(lowerLeftTpos, newTile);
+                }
+                if (!lowerLeftTile && !leftTile && rightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftLowerRight].Sprite;
+                    wallLayer.SetTile(lowerTpos, newTile);
                 }
             }
         }
