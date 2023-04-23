@@ -3952,6 +3952,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 380230d697c2bba48a209c29521ef0e2, type: 2}
   - {fileID: 11400000, guid: f50e7c8e4bb5cd74f9bdb4102c6971d4, type: 2}
   - {fileID: 11400000, guid: 67d5a27ee4bf0594a87d62137cb4bfee, type: 2}
+  - {fileID: 11400000, guid: 292dca241ee89394f8d61bfe579e7871, type: 2}
 --- !u!4 &1266442050
 Transform:
   m_ObjectHideFlags: 0
@@ -12058,8 +12059,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 32357674, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
-      propertyPath: horizontalSpeed
+      propertyPath: verticalSpeed
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 32357674, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
+      propertyPath: horizontalSpeed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 32357675, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: wallLayer
@@ -12111,11 +12116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401924, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.09
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401924, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.53
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401924, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_LocalPosition.z

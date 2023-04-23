@@ -118,7 +118,14 @@ namespace Assets.Scripts.Worker
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftUpperLeft].Sprite;
                     wallLayer.SetTile(upperTpos, newTile);
                 }
-                
+                if(leftTile && rightTile && !lowerTile)
+                {
+                    Tile newUpperTile = ScriptableObject.CreateInstance<Tile>();
+                    newUpperTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
+                    wallLayer.SetTile(upperTpos, newUpperTile);
+
+
+                }
             }
             if (rightTile)
             {
@@ -128,6 +135,31 @@ namespace Assets.Scripts.Worker
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
                     wallLayer.SetTile(rightTpos, newTile);
                 }
+                if(!lowerRightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftUpperLeft].Sprite;
+                    wallLayer.SetTile(rightTpos, newTile);
+                }
+                if (lowerRightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
+                    wallLayer.SetTile(rightTpos, newTile);
+                }
+                if (upperRightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.RightUpperRight].Sprite;
+                    wallLayer.SetTile(upperRightTpos, newTile);
+                }
+                if (!upperRightTile)
+                {
+                    //TODO: Create a new corner when opening into a new mined out area
+                    //Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    //newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
+                    //wallLayer.SetTile(rightTpos, newTile);
+                }
             }
             if (leftTile)
             {
@@ -136,6 +168,31 @@ namespace Assets.Scripts.Worker
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Left].Sprite;
                     wallLayer.SetTile(leftTpos, newTile);
+                }
+                if (!lowerLeftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.UpperRight].Sprite;
+                    wallLayer.SetTile(leftTpos, newTile);
+                }
+                if (lowerLeftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Left].Sprite;
+                    wallLayer.SetTile(leftTpos, newTile);
+                }
+                if (upperLeftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.UpperLeft].Sprite;
+                    wallLayer.SetTile(upperLeftTpos, newTile);
+                }
+                if (!upperLeftTile)
+                {
+                    //TODO: Create a new corner when opening into a new mined out area
+                    //Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    //newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
+                    //wallLayer.SetTile(rightTpos, newTile);
                 }
             }
             if (lowerTile)
