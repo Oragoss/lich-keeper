@@ -13,14 +13,12 @@ namespace Assets.Scripts.Worker
         [SerializeField] Tilemap highlightLayer;
 
         [SerializeField] Sprite emptySquare;    //This replaces the highlight sprite so the player can see again
-        [SerializeField] Sprite upperWall;
+        //[SerializeField] Sprite[] wallSprites;
 
-        [HideInInspector]
-        public List<Vector3Int> worldPoints;
+        [HideInInspector] public List<Vector3Int> worldPoints;
 
         private void Start()
         {
-            //TODO: Make a way to update this or have this called when highlighting new wall sections
             worldPoints = WallManager.wm.GetHighlightedWalls();
         }
 
@@ -44,8 +42,7 @@ namespace Assets.Scripts.Worker
                 hitPosition.x = hit.point.x - 0.01f * hit.normal.x; //Doing this is absolutely necessary
                 hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
 
-                //Double check to make sure it can grab any stored position from the list
-                Vector3Int tpos = wallLayer.WorldToCell(hitPosition);
+                Vector3Int tpos = wallLayer.WorldToCell(hitPosition);  //Double check to make sure it can grab any stored position from the list
                 Vector3Int highlightedPoint = worldPoints.Find(x => x == tpos);
                 var wallLayerTile = wallLayer.GetTile(highlightedPoint);
 
@@ -56,7 +53,7 @@ namespace Assets.Scripts.Worker
 
                     //Direct Wall
                     wallLayer.SetTile(wallLayer.WorldToCell(highlightedPoint), null);
-                                        
+
                     //Highlight layer
                     Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
                     newHighlightLayerTile.sprite = emptySquare;
@@ -64,16 +61,81 @@ namespace Assets.Scripts.Worker
                 }
             }
         }
-    
+
         private void DetermineSurroundingWallSprites(Vector3Int tpos)
         {
             //TODO: Gather information about the 8 surrounding tiles to determine which sprite should be used.
             Vector3Int upperTpos = new Vector3Int(tpos.x, tpos.y + 1, tpos.z);
-            Tile newTile = ScriptableObject.CreateInstance<Tile>();
-            newTile.sprite = upperWall;
-            var otherTile = wallLayer.GetTile(new Vector3Int(tpos.x, tpos.y + 1, tpos.z));
-            if(otherTile)
-                wallLayer.SetTile(upperTpos, newTile);
+            Vector3Int upperLeftTpos = new Vector3Int(tpos.x - 1, tpos.y + 1, tpos.z);
+            Vector3Int upperRightTpos = new Vector3Int(tpos.x + 1, tpos.y + 1, tpos.z);
+            Vector3Int rightTpos = new Vector3Int(tpos.x + 1, tpos.y, tpos.z);
+            Vector3Int leftTpos = new Vector3Int(tpos.x - 1, tpos.y, tpos.z);
+            Vector3Int lowerTpos = new Vector3Int(tpos.x, tpos.y - 1, tpos.z);
+            Vector3Int lowerLeftTpos = new Vector3Int(tpos.x - 1, tpos.y - 1, tpos.z);
+            Vector3Int lowerRightTpos = new Vector3Int(tpos.x + 1, tpos.y - 1, tpos.z);
+
+            var upperLeftTile = wallLayer.GetTile(upperLeftTpos);
+            var upperRightTile = wallLayer.GetTile(upperRightTpos);
+            var upperTile = wallLayer.GetTile(upperTpos);
+            var rightTile = wallLayer.GetTile(rightTpos);
+            var leftTile = wallLayer.GetTile(leftTpos);
+            var lowerTile = wallLayer.GetTile(lowerTpos);
+            var lowerLeftTile = wallLayer.GetTile(lowerLeftTpos);
+            var lowerRightTile = wallLayer.GetTile(lowerRightTpos);
+
+            //TODO: Move the sprites to a scriptable asset so they are fixed in a reliable position
+            if (upperTile)
+            {
+                if (!upperRightTile && !rightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.UpperRight].Sprite;
+                    wallLayer.SetTile(upperTpos, newTile);
+                }
+                if (upperRightTile && !rightTile && leftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
+                    wallLayer.SetTile(upperTpos, newTile);
+                }
+                if (upperLeftTile && !rightTile && leftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.UpperLeft].Sprite;
+                    wallLayer.SetTile(upperLeftTpos, newTile);
+                }
+            }
+            if (rightTile) { }
+            if (leftTile)
+            {
+                if (!rightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Left].Sprite;
+                    wallLayer.SetTile(leftTpos, newTile);
+                }
+            }
+            if (lowerTile)
+            {
+                if (!lowerRightTile && !rightTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LowerRight].Sprite;
+                    wallLayer.SetTile(lowerTpos, newTile);
+                }
+                if (lowerRightTile && !rightTile && leftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Lower].Sprite;
+                    wallLayer.SetTile(lowerTpos, newTile);
+                }
+                if (lowerLeftTile && !rightTile && leftTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LowerLeft].Sprite;
+                    wallLayer.SetTile(lowerLeftTpos, newTile);
+                }
+            }
         }
     }
 }

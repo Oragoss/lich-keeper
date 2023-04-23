@@ -21,9 +21,6 @@ namespace Assets.Scripts.Player
         private bool alreadyHighlighted = true;
         private void Update()
         {
-            //TODO: Figure out highlighting vs dehighlighting
-            //Highlight();
-
             ToHighlightOrNotToHighlight();
 
             if (!alreadyHighlighted)

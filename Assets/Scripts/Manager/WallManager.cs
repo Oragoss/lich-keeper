@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.Manager
 {
@@ -10,10 +11,9 @@ namespace Assets.Scripts.Manager
         public static WallManager wm;
 
         [SerializeField] List<Vector3Int> highlightedWallPositions;
+        public WallTypes[] wallSprites;
 
-        private void Reset()
-        {
-        }
+        [HideInInspector] public enum WallSprites { Upper, UpperLeft, UpperRight, Left, Right, Lower, LowerLeft, LowerRight };
 
         private void Awake()
         {
