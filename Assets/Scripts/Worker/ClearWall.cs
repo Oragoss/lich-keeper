@@ -64,7 +64,7 @@ namespace Assets.Scripts.Worker
 
         private void DetermineSurroundingWallSprites(Vector3Int tpos)
         {
-            //TODO: Gather information about the 8 surrounding tiles to determine which sprite should be used.
+            //TODO: Do Diagaonal Directions!!
             Vector3Int upperTpos = new Vector3Int(tpos.x, tpos.y + 1, tpos.z);
             Vector3Int upperLeftTpos = new Vector3Int(tpos.x - 1, tpos.y + 1, tpos.z);
             Vector3Int upperRightTpos = new Vector3Int(tpos.x + 1, tpos.y + 1, tpos.z);
@@ -123,8 +123,6 @@ namespace Assets.Scripts.Worker
                     Tile newUpperTile = ScriptableObject.CreateInstance<Tile>();
                     newUpperTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
                     wallLayer.SetTile(upperTpos, newUpperTile);
-
-
                 }
             }
             if (rightTile)
@@ -147,7 +145,7 @@ namespace Assets.Scripts.Worker
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
                     wallLayer.SetTile(rightTpos, newTile);
                 }
-                if (upperRightTile)
+                if (upperRightTile && !lowerTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.RightUpperRight].Sprite;
@@ -155,10 +153,15 @@ namespace Assets.Scripts.Worker
                 }
                 if (!upperRightTile)
                 {
-                    //TODO: Create a new corner when opening into a new mined out area
-                    //Tile newTile = ScriptableObject.CreateInstance<Tile>();
-                    //newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
-                    //wallLayer.SetTile(rightTpos, newTile);
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftLowerRight].Sprite;
+                    wallLayer.SetTile(rightTpos, newTile);
+                }
+                if (lowerRightTile && !upperTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.RightLowerRight].Sprite;
+                    wallLayer.SetTile(lowerRightTpos, newTile);
                 }
             }
             if (leftTile)
@@ -181,18 +184,23 @@ namespace Assets.Scripts.Worker
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Left].Sprite;
                     wallLayer.SetTile(leftTpos, newTile);
                 }
-                if (upperLeftTile)
+                if (upperLeftTile && !lowerTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.UpperLeft].Sprite;
                     wallLayer.SetTile(upperLeftTpos, newTile);
                 }
-                if (!upperLeftTile)
+                if (!upperLeftTile && !upperTile)
                 {
-                    //TODO: Create a new corner when opening into a new mined out area
-                    //Tile newTile = ScriptableObject.CreateInstance<Tile>();
-                    //newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
-                    //wallLayer.SetTile(rightTpos, newTile);
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LowerRight].Sprite;
+                    wallLayer.SetTile(leftTpos, newTile);
+                }
+                if (lowerLeftTile && !upperTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LowerLeft].Sprite;
+                    wallLayer.SetTile(lowerLeftTpos, newTile);
                 }
             }
             if (lowerTile)
@@ -229,6 +237,12 @@ namespace Assets.Scripts.Worker
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftLowerRight].Sprite;
+                    wallLayer.SetTile(lowerTpos, newTile);
+                }
+                if(lowerRightTile && lowerLeftTile && !upperTile)
+                {
+                    Tile newTile = ScriptableObject.CreateInstance<Tile>();
+                    newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Lower].Sprite;
                     wallLayer.SetTile(lowerTpos, newTile);
                 }
             }
