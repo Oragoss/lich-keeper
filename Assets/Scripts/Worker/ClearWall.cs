@@ -44,6 +44,7 @@ namespace Assets.Scripts.Worker
                 hitPosition.x = hit.point.x - 0.01f * hit.normal.x; //Doing this is absolutely necessary
                 hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
 
+                //Double check to make sure it can grab any stored position from the list
                 Vector3Int tpos = wallLayer.WorldToCell(hitPosition);
                 Vector3Int highlightedPoint = worldPoints.Find(x => x == tpos);
                 var wallLayerTile = wallLayer.GetTile(highlightedPoint);

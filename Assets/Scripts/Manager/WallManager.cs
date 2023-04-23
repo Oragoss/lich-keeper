@@ -39,11 +39,8 @@ namespace Assets.Scripts.Manager
             
             if(newPoint == Vector3Int.zero)
             {
-                AddWallToHighlightedWalls(point);
                 return false;
             }
-
-            RemoveHighlightedWallPosition(point);
             return true;
         }
 
@@ -52,7 +49,7 @@ namespace Assets.Scripts.Manager
             highlightedWallPositions.Remove(point);
         }
 
-        private void AddWallToHighlightedWalls(Vector3Int point)
+        internal void AddWallToHighlightedWalls(Vector3Int point)
         {
             highlightedWallPositions.Add(point);
         }

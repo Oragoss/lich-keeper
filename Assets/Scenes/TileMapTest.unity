@@ -123,40 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &32357668 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1079568234819401927, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
-  m_PrefabInstance: {fileID: 1079568234813392355}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &32357674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32357668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c31740796eb32fd44b49c6ed81b0e2de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &32357675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32357668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e7e40705750af4e99b15f9c49365e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallLayer: {fileID: 200898241}
-  highlightLayer: {fileID: 1400989988}
-  emptySquare: {fileID: 21300000, guid: 9db694f5f1e0e2743a58a6e1adbb3f5e, type: 3}
-  upperWall: {fileID: 1236010555, guid: b1dcdc775693c4c4588589e8f426d566, type: 3}
-  worldPoints: []
 --- !u!1 &69111346
 GameObject:
   m_ObjectHideFlags: 0
@@ -12179,14 +12145,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 32357672, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
-      propertyPath: m_Size.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 32357673, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
+    - target: {fileID: 32357675, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
+      propertyPath: wallLayer
+      value: 
+      objectReference: {fileID: 200898241}
+    - target: {fileID: 32357675, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
+      propertyPath: highlightLayer
+      value: 
+      objectReference: {fileID: 1400989988}
     - target: {fileID: 1079568234819401924, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -12237,7 +12203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1079568234819401927, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ee4af88dbdfefd4d80586ccdfe86a14, type: 3}

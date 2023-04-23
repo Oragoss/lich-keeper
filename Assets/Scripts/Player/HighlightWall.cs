@@ -21,6 +21,9 @@ namespace Assets.Scripts.Player
         private bool alreadyHighlighted = true;
         private void Update()
         {
+            //TODO: Figure out highlighting vs dehighlighting
+            //Highlight();
+
             ToHighlightOrNotToHighlight();
 
             if (!alreadyHighlighted)
@@ -59,6 +62,7 @@ namespace Assets.Scripts.Player
                     if (wallLayerTile)
                     {
                         highlightLayer.SetTile(tpos, newHighlightLayerTile);
+                        WallManager.wm.AddWallToHighlightedWalls(tpos);
                     }
                 }
             }
@@ -83,6 +87,7 @@ namespace Assets.Scripts.Player
                     if (wallLayerTile)
                     {
                         highlightLayer.SetTile(tpos, newHighlightLayerTile);
+                        WallManager.wm.RemoveHighlightedWallPosition(tpos);
                     }
                 }
             }
