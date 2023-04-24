@@ -5,26 +5,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace Assets.Scripts.Worker
+namespace Assets.Scripts.NPC
 {
     public class ClearWall : MonoBehaviour
     {
         [SerializeField] Tilemap wallLayer;
         [SerializeField] Tilemap highlightLayer;
 
-        [SerializeField] Sprite emptySquare;    //This replaces the highlight sprite so the player can see again
-        //[SerializeField] Sprite[] wallSprites;
+        [SerializeField] Sprite emptySquare;    //This replaces the highlight sprite so the player can see again.
 
-        [HideInInspector] public List<Vector3Int> worldPoints;
+        [HideInInspector] public List<Vector3Int> highlightedWalls;
 
         private void Start()
         {
-            worldPoints = WallManager.wm.GetHighlightedWalls();
+            highlightedWalls = WallManager.wm.GetHighlightedWalls();
         }
 
         private void FixedUpdate()
         {
-            worldPoints = WallManager.wm.GetHighlightedWalls();
+            highlightedWalls = WallManager.wm.GetHighlightedWalls();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -34,8 +33,6 @@ namespace Assets.Scripts.Worker
 
         private void DigOutWall(Collision2D collision)
         {
-            //TODO: Detect which direction the worker is moving then select the correct wall sprites
-
             Vector3 hitPosition = Vector3.zero;
             foreach (ContactPoint2D hit in collision.contacts)
             {
@@ -43,7 +40,7 @@ namespace Assets.Scripts.Worker
                 hitPosition.y = hit.point.y - 0.01f * hit.normal.y;
 
                 Vector3Int tpos = wallLayer.WorldToCell(hitPosition);  //Double check to make sure it can grab any stored position from the list
-                Vector3Int highlightedPoint = worldPoints.Find(x => x == tpos);
+                Vector3Int highlightedPoint = highlightedWalls.Find(x => x == tpos);
                 var wallLayerTile = wallLayer.GetTile(highlightedPoint);
 
                 if (wallLayerTile)
@@ -58,6 +55,9 @@ namespace Assets.Scripts.Worker
                     Tile newHighlightLayerTile = ScriptableObject.CreateInstance<Tile>();
                     newHighlightLayerTile.sprite = emptySquare;
                     highlightLayer.SetTile(highlightLayer.WorldToCell(hitPosition), newHighlightLayerTile);
+
+                    //Mineable Wall
+                    WallManager.wm.RemoveMineableWalls(tpos);
                 }
             }
         }

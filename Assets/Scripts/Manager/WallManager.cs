@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.Manager
 {
@@ -11,6 +8,7 @@ namespace Assets.Scripts.Manager
         public static WallManager wm;
 
         [SerializeField] List<Vector3Int> highlightedWallPositions;
+        [SerializeField] List<Vector3Int> mineableWalls;
         public WallTypes[] wallSprites;
 
         [HideInInspector] public enum WallSprites { Upper, UpperLeft, UpperRight, Left, Right, Lower, LowerLeft, LowerRight, LeftUpperLeft, LeftLowerRight, RightUpperRight, RightLowerRight };
@@ -33,6 +31,11 @@ namespace Assets.Scripts.Manager
             return highlightedWallPositions;
         }
 
+        internal List<Vector3Int> GetMineableWalls()
+        {
+            return mineableWalls;
+        }
+
         internal bool CheckIfWallIsAlreadyHighlighted(Vector3Int point)
         {
             Vector3Int newPoint = highlightedWallPositions.Find(x => x == point);
@@ -52,6 +55,16 @@ namespace Assets.Scripts.Manager
         internal void AddWallToHighlightedWalls(Vector3Int point)
         {
             highlightedWallPositions.Add(point);
+        }
+
+        internal void RemoveMineableWalls(Vector3Int point)
+        {
+            mineableWalls.Remove(point);
+        }
+
+        internal void AddMineableWalls(Vector3Int point)
+        {
+            mineableWalls.Add(point);
         }
     }
 }
