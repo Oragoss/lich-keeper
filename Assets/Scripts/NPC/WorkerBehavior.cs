@@ -26,7 +26,7 @@ namespace Assets.Scripts.NPC
             var offset = 0.5f;
             mineableWalls = WallManager.wm.GetMineableWalls();
 
-            //Find the closest mineable wall
+            //TODO: Find the closest mineable wall: transform.position - whatever
             if (mineableWalls.Count > 0)
             {
                 Vector3Int movePoint = mineableWalls[0];

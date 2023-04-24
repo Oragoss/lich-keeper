@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace Assets.Scripts.Manager
 {
@@ -45,6 +46,32 @@ namespace Assets.Scripts.Manager
                 return false;
             }
             return true;
+        }
+
+        internal void CheckToSeeIfWallIsMineable(Vector3Int tpos, Tilemap tilemap)
+        {
+            Vector3Int upperTpos = new Vector3Int(tpos.x, tpos.y + 1, tpos.z);
+            Vector3Int upperLeftTpos = new Vector3Int(tpos.x - 1, tpos.y + 1, tpos.z);
+            Vector3Int upperRightTpos = new Vector3Int(tpos.x + 1, tpos.y + 1, tpos.z);
+            Vector3Int rightTpos = new Vector3Int(tpos.x + 1, tpos.y, tpos.z);
+            Vector3Int leftTpos = new Vector3Int(tpos.x - 1, tpos.y, tpos.z);
+            Vector3Int lowerTpos = new Vector3Int(tpos.x, tpos.y - 1, tpos.z);
+            Vector3Int lowerLeftTpos = new Vector3Int(tpos.x - 1, tpos.y - 1, tpos.z);
+            Vector3Int lowerRightTpos = new Vector3Int(tpos.x + 1, tpos.y - 1, tpos.z);
+
+            var upperLeftTile = tilemap.GetTile(upperLeftTpos);
+            var upperRightTile = tilemap.GetTile(upperRightTpos);
+            var upperTile = tilemap.GetTile(upperTpos);
+            var rightTile = tilemap.GetTile(rightTpos);
+            var leftTile = tilemap.GetTile(leftTpos);
+            var lowerTile = tilemap.GetTile(lowerTpos);
+            var lowerLeftTile = tilemap.GetTile(lowerLeftTpos);
+            var lowerRightTile = tilemap.GetTile(lowerRightTpos);
+
+            if (!upperLeftTile || !upperRightTile || !upperTile || !rightTile || !leftTile || !lowerTile || !lowerLeftTile || !lowerRightTile)
+            {
+                AddMineableWalls(tpos);
+            }
         }
 
         internal void RemoveHighlightedWallPosition(Vector3Int point)

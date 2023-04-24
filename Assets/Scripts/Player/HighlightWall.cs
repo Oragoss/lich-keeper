@@ -60,8 +60,7 @@ namespace Assets.Scripts.Player
                     {
                         highlightLayer.SetTile(tpos, newHighlightLayerTile);
                         WallManager.wm.AddWallToHighlightedWalls(tpos);
-
-                        CheckToSeeIfWallIsMineable(tpos);
+                        WallManager.wm.CheckToSeeIfWallIsMineable(tpos, wallLayer);
                     }
                 }
             }
@@ -90,32 +89,6 @@ namespace Assets.Scripts.Player
                         WallManager.wm.RemoveMineableWalls(tpos);
                     }
                 }
-            }
-        }
-    
-        private void CheckToSeeIfWallIsMineable(Vector3Int tpos)
-        {
-            Vector3Int upperTpos = new Vector3Int(tpos.x, tpos.y + 1, tpos.z);
-            Vector3Int upperLeftTpos = new Vector3Int(tpos.x - 1, tpos.y + 1, tpos.z);
-            Vector3Int upperRightTpos = new Vector3Int(tpos.x + 1, tpos.y + 1, tpos.z);
-            Vector3Int rightTpos = new Vector3Int(tpos.x + 1, tpos.y, tpos.z);
-            Vector3Int leftTpos = new Vector3Int(tpos.x - 1, tpos.y, tpos.z);
-            Vector3Int lowerTpos = new Vector3Int(tpos.x, tpos.y - 1, tpos.z);
-            Vector3Int lowerLeftTpos = new Vector3Int(tpos.x - 1, tpos.y - 1, tpos.z);
-            Vector3Int lowerRightTpos = new Vector3Int(tpos.x + 1, tpos.y - 1, tpos.z);
-
-            var upperLeftTile = wallLayer.GetTile(upperLeftTpos);
-            var upperRightTile = wallLayer.GetTile(upperRightTpos);
-            var upperTile = wallLayer.GetTile(upperTpos);
-            var rightTile = wallLayer.GetTile(rightTpos);
-            var leftTile = wallLayer.GetTile(leftTpos);
-            var lowerTile = wallLayer.GetTile(lowerTpos);
-            var lowerLeftTile = wallLayer.GetTile(lowerLeftTpos);
-            var lowerRightTile = wallLayer.GetTile(lowerRightTpos);
-
-            if(!upperLeftTile || !upperRightTile || !upperTile || !rightTile || !leftTile || !lowerTile || !lowerLeftTile || !lowerRightTile)
-            {
-                WallManager.wm.AddMineableWalls(tpos);
             }
         }
     }

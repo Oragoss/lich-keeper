@@ -57,7 +57,11 @@ namespace Assets.Scripts.NPC
                     highlightLayer.SetTile(highlightLayer.WorldToCell(hitPosition), newHighlightLayerTile);
 
                     //Mineable Wall
+                    //TODO: When changing directions it will bump into a wall and add too many mineable walls
                     WallManager.wm.RemoveMineableWalls(tpos);
+                    WallManager.wm.RemoveHighlightedWallPosition(tpos);
+                    foreach (var newTpos in highlightedWalls)
+                        WallManager.wm.CheckToSeeIfWallIsMineable(newTpos, wallLayer);
                 }
             }
         }
@@ -97,7 +101,8 @@ namespace Assets.Scripts.NPC
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
                     wallLayer.SetTile(upperTpos, newTile);
                 }
-                if (upperRightTile && rightTile && !leftTile) {
+                if (upperRightTile && rightTile && !leftTile)
+                {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
                     wallLayer.SetTile(upperTpos, newTile);
@@ -118,7 +123,7 @@ namespace Assets.Scripts.NPC
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftUpperLeft].Sprite;
                     wallLayer.SetTile(upperTpos, newTile);
                 }
-                if(leftTile && rightTile && !lowerTile)
+                if (leftTile && rightTile && !lowerTile)
                 {
                     Tile newUpperTile = ScriptableObject.CreateInstance<Tile>();
                     newUpperTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Upper].Sprite;
@@ -133,7 +138,7 @@ namespace Assets.Scripts.NPC
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Right].Sprite;
                     wallLayer.SetTile(rightTpos, newTile);
                 }
-                if(!lowerRightTile)
+                if (!lowerRightTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftUpperLeft].Sprite;
@@ -239,7 +244,7 @@ namespace Assets.Scripts.NPC
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.LeftLowerRight].Sprite;
                     wallLayer.SetTile(lowerTpos, newTile);
                 }
-                if(lowerRightTile && lowerLeftTile && !upperTile)
+                if (lowerRightTile && lowerLeftTile && !upperTile)
                 {
                     Tile newTile = ScriptableObject.CreateInstance<Tile>();
                     newTile.sprite = WallManager.wm.wallSprites[(int)WallManager.WallSprites.Lower].Sprite;
