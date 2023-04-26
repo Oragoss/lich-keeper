@@ -34,6 +34,7 @@ namespace Assets.Scripts.NPC
         private void DigOutWall(Collision2D collision)
         {
             Vector3 hitPosition = Vector3.zero;
+            //TODO: Don't do this on collisions, shoot a raycast in one of 4 directions and then if the tile position it hits is the same as the mineable tile, mine it out
             foreach (ContactPoint2D hit in collision.contacts)
             {
                 hitPosition.x = hit.point.x - 0.01f * hit.normal.x; //Doing this is absolutely necessary
