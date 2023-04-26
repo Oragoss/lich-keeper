@@ -14,6 +14,8 @@ namespace Assets.Scripts.NPC
         Rigidbody2D rb2d;
         List<Vector3Int> mineableWalls;
 
+        private PathFinder pathFinder;
+
         void Start()
         {
             rb2d = GetComponent<Rigidbody2D>();
@@ -30,8 +32,13 @@ namespace Assets.Scripts.NPC
             if (mineableWalls.Count > 0)
             {
                 Vector3Int movePoint = mineableWalls[0];
-                var movePosition = wallLayer.CellToWorld(movePoint);
-                rb2d.MovePosition(Vector2.MoveTowards(transform.position, new Vector2(movePosition.x + offset, movePosition.y + offset), velocity));
+                var endNode = wallLayer.CellToWorld(movePoint);
+                var workerPoint = wallLayer.WorldToCell(transform.position);
+                var startNode = wallLayer.WorldToCell(workerPoint);
+                //rb2d.MovePosition(Vector2.MoveTowards(transform.position, new Vector2(endNode.x + offset, endNode.y + offset), velocity));
+
+                //TODO: Generate the overlay tiles like in the tutorial and then everything else might fall into place
+                //var path = pathFinder.FindPath(startNode, endNode);
             }
             else
             {
