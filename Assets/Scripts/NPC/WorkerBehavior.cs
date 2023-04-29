@@ -10,7 +10,8 @@ namespace Assets.Scripts.NPC
         [SerializeField] Tilemap wallLayer;
         [SerializeField] Tilemap highlightLayer;
         [SerializeField] float speed = 1f;
-        
+
+        [HideInInspector] public bool isDigging;
         Rigidbody2D rb2d;
         List<Vector3Int> mineableWalls;
 
@@ -26,8 +27,8 @@ namespace Assets.Scripts.NPC
             var offset = 0.5f;
             mineableWalls = WallManager.wm.GetMineableWalls();
 
-            //TODO: Find the closest mineable wall: transform.position - whatever
-            if (mineableWalls.Count > 0)
+            //TODO: Don't move worker when they are mining
+            if (mineableWalls.Count > 0 && !isDigging)
             {
                 Vector3Int movePoint = mineableWalls[0];
                 var movePosition = wallLayer.CellToWorld(movePoint);

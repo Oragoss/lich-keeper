@@ -40,8 +40,8 @@ namespace Assets.Scripts.Manager
         internal bool CheckIfWallIsAlreadyHighlighted(Vector3Int point)
         {
             Vector3Int newPoint = highlightedWallPositions.Find(x => x == point);
-            
-            if(newPoint == Vector3Int.zero)
+
+            if (newPoint == Vector3Int.zero)
             {
                 return false;
             }
@@ -50,6 +50,8 @@ namespace Assets.Scripts.Manager
 
         internal void CheckToSeeIfWallIsMineable(Vector3Int tpos, Tilemap tilemap)
         {
+            //TODO: This function is called quite a lot, might need to see about calling it less.
+
             Vector3Int upperTpos = new Vector3Int(tpos.x, tpos.y + 1, tpos.z);
             Vector3Int upperLeftTpos = new Vector3Int(tpos.x - 1, tpos.y + 1, tpos.z);
             Vector3Int upperRightTpos = new Vector3Int(tpos.x + 1, tpos.y + 1, tpos.z);
@@ -70,7 +72,9 @@ namespace Assets.Scripts.Manager
 
             if (!upperLeftTile || !upperRightTile || !upperTile || !rightTile || !leftTile || !lowerTile || !lowerLeftTile || !lowerRightTile)
             {
-                AddMineableWalls(tpos);
+                Vector3Int newPoint = mineableWalls.Find(x => x == tpos);
+                if (newPoint == Vector3Int.zero)
+                    AddMineableWalls(tpos);
             }
         }
 

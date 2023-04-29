@@ -9,6 +9,7 @@ namespace Assets.Scripts.NPC
 {
     public class ClearWall : MonoBehaviour
     {
+        [SerializeField] float animationDelayTime = 2;
         [SerializeField] Tilemap wallTileMap;
         [SerializeField] Tilemap highlightLayer;
 
@@ -34,16 +35,15 @@ namespace Assets.Scripts.NPC
        
         public void DigOutWall()
         {
-            //TODO: ShootRaycasts diagonally
-
             RaycastHit2D upHit = Physics2D.Raycast(transform.position, Vector2.up, 0.5f);
             Debug.DrawLine(transform.position, Vector2.up, Color.red);
             RaycastHit2D rightHit = Physics2D.Raycast(transform.position, Vector2.right, 0.5f);
-            //Debug.DrawLine(transform.position, new Vector2(0.25f, 0), Color.red);
+            Debug.DrawLine(transform.position, Vector2.right, Color.red);
             RaycastHit2D leftHit = Physics2D.Raycast(transform.position, Vector2.left, 0.5f);
-            Debug.DrawLine(transform.position, Vector2.down);
+            Debug.DrawLine(transform.position, Vector2.left, Color.red);
             RaycastHit2D downHit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f);
-          
+            Debug.DrawLine(transform.position, Vector2.down, Color.red);
+
             if (upHit.collider && upHit.collider.gameObject.CompareTag("WallTile"))
             {
                 Vector3 hitPosition = Vector3.zero;
@@ -53,7 +53,7 @@ namespace Assets.Scripts.NPC
                 var wallPos = mineableWalls.Find(x => x == hitTilePos);
                 if (wallPos != Vector3Int.zero)
                 {
-                    Dig(wallPos);
+                    StartCoroutine(Dig(wallPos));
                 }
             }
 
@@ -66,7 +66,7 @@ namespace Assets.Scripts.NPC
                 var wallPos = mineableWalls.Find(x => x == hitTilePos);
                 if (wallPos != Vector3Int.zero)
                 {
-                    Dig(wallPos);
+                    StartCoroutine(Dig(wallPos));
                 }
             }
 
@@ -79,7 +79,7 @@ namespace Assets.Scripts.NPC
                 var wallPos = mineableWalls.Find(x => x == hitTilePos);
                 if (wallPos != Vector3Int.zero)
                 {
-                    Dig(wallPos);
+                    StartCoroutine(Dig(wallPos));
                 }
             }
 
@@ -92,7 +92,7 @@ namespace Assets.Scripts.NPC
                 var wallPos = mineableWalls.Find(x => x == hitTilePos);
                 if (wallPos != Vector3Int.zero)
                 {
-                    Dig(wallPos);
+                    StartCoroutine(Dig(wallPos));
                 }
             }
         }
@@ -133,13 +133,15 @@ namespace Assets.Scripts.NPC
         //    }
         //}
 
-        private void Dig(Vector3Int tpos)
+        private IEnumerator Dig(Vector3Int tpos)
         {
+            GetComponent<WorkerBehavior>().isDigging = true;
+            //TODO: Add animation
+            yield return new WaitForSeconds(animationDelayTime);
+
             //Adjacent Walls
             DetermineSurroundingWallSprites(tpos);
-
-            //TODO: Add animation
-            //TODO: Add delay
+                        
             //Direct Wall
             wallTileMap.SetTile(wallTileMap.WorldToCell(tpos), null);
 
@@ -153,6 +155,8 @@ namespace Assets.Scripts.NPC
             WallManager.wm.RemoveHighlightedWallPosition(tpos);
             foreach (var newTpos in highlightedWalls)
                 WallManager.wm.CheckToSeeIfWallIsMineable(newTpos, wallTileMap);
+
+            GetComponent<WorkerBehavior>().isDigging = false;
         }
 
         private void DetermineSurroundingWallSprites(Vector3Int tpos)
